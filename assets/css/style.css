@@ -1,0 +1,79 @@
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+}
+
+h5 {
+  font-size: 1.7rem;
+}
+
+body {
+  background: url("../images/abstract-art-artistic-1020315.jpg");
+  background-position: fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  height: 100vh;
+  font-size: 1.7rem;
+  font-family: "Teko", sans-serif;
+}
+
+.wrapper {
+  width: 100vw;
+}
+
+.contain {
+  background-color: #ffffff;
+}
+
+.heading {
+  font-family: "Sigmar One", cursive;
+  font-size: 4rem;
+}
+
+ol {
+  list-style-type: decimal;
+  list-style-position: inside;
+}
+li {
+  padding: 0.4rem 0;
+  text-align: center;
+}
+
+.row2container {
+  width: 80%;
+}
+
+.button {
+  color: #ffffff;
+  background-color: green;
+  letter-spacing: 0.2rem;
+  width: 15%;
+  font-size: 2.5rem;
+}
+
+.contain2 {
+  width: 70%;
+}
+
+.que {
+  padding: 0.4rem;
+}
+
+.option {
+  color: #ffffff;
+  margin: 0.4rem;
+  padding: 1rem 0;
+  width: 40%;
+  background-color: black;
+  opacity: 0.9;
+}
+
+.row4,
+.row5 {
+  font-size: 1.7rem;
+}
