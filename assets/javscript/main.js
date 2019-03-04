@@ -10,7 +10,8 @@ $(document).ready(function() {
         answere: "Hypertext Markup Language",
         selected: "",
         message: "You got it correct!",
-        correct: false
+        correct: false,
+        reached: false
       },
       {
         question:
@@ -22,7 +23,8 @@ $(document).ready(function() {
         answere: "span {font-weight:bold}",
         selected: "",
         message: "",
-        correct: false
+        correct: false,
+        reached: false
       },
       {
         question:
@@ -34,7 +36,8 @@ $(document).ready(function() {
         answere: "8px",
         selected: "",
         message: "",
-        correct: false
+        correct: false,
+        reached: false
       },
       {
         question: "How do you add a comment in a CSS file?",
@@ -45,7 +48,8 @@ $(document).ready(function() {
         answere: "/* this is a comment */",
         selected: "",
         message: "",
-        correct: false
+        correct: false,
+        reached: false
       },
       {
         question:
@@ -57,7 +61,8 @@ $(document).ready(function() {
         answere: "color:",
         selected: "",
         message: "",
-        correct: false
+        correct: false,
+        reached: false
       }
     ]
   };
@@ -180,8 +185,6 @@ $(document).ready(function() {
     $(".option4-sec2").text(object.questions[index].option4);
   }
 
-  setOutput(0);
-
   function toCheck(index) {
     if (object.questions[index].selected === object.questions[index].answere) {
       object.questions[index].message = "You got it CORRECT";
@@ -192,33 +195,45 @@ $(document).ready(function() {
     }
   }
 
-  function mainFunction(index) {
+  function mainSection1() {
+    index = 0;
     setQuestions(index);
     showSection1();
 
     $(".option1").on("click", function() {
       object.questions[index].selected = object.questions[index].option1;
       toCheck(index);
+      object.questions[index].reached = true;
     });
 
     $(".option2").on("click", function() {
       object.questions[index].selected = object.questions[index].option1;
       toCheck(index);
+      object.questions[index].reached = true;
     });
 
     $(".option3").on("click", function() {
       object.questions[index].selected = object.questions[index].option1;
       toCheck(index);
+      object.questions[index].reached = true;
     });
 
     $(".option4").on("click", function() {
       object.questions[index].selected = object.questions[index].option1;
       toCheck(index);
+      object.questions[index].reached = true;
     });
 
-    hideSection1();
-    showSection2();
-    setOutput(index);
+    index++;
   }
   hideSection1();
+
+  $(".button").on("click", function() {
+    $(".button").css("display", "none");
+    $(".row2container").css("display", "none");
+
+    for (var i = 0; i < object.questions.length; i++) {
+      setTimeout(mainSection1, 10 * 1000);
+    }
+  });
 });
