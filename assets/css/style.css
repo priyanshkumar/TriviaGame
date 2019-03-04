@@ -60,7 +60,8 @@ li {
   width: 70%;
 }
 
-.que {
+.que,
+.message {
   padding: 0.4rem;
 }
 
@@ -75,4 +76,12 @@ li {
 .row4,
 .row5 {
   font-size: 1.7rem;
+}
+
+.green {
+  color: green;
+}
+
+.red {
+  color: red;
 }

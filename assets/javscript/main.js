@@ -8,7 +8,9 @@ $(document).ready(function() {
         option3: "Hypertext Makeup Language",
         option4: "Hypertext Make Language",
         answere: "Hypertext Markup Language",
-        selected: ""
+        selected: "",
+        message: "You got it correct!",
+        correct: false
       },
       {
         question:
@@ -18,7 +20,9 @@ $(document).ready(function() {
         option3: "<span style='font-size:bold'>",
         option4: "<span style='text-size:bold'>",
         answere: "span {font-weight:bold}",
-        selected: ""
+        selected: "",
+        message: "",
+        correct: false
       },
       {
         question:
@@ -28,7 +32,9 @@ $(document).ready(function() {
         option3: "8px",
         option4: "5px",
         answere: "8px",
-        selected: ""
+        selected: "",
+        message: "",
+        correct: false
       },
       {
         question: "How do you add a comment in a CSS file?",
@@ -37,7 +43,9 @@ $(document).ready(function() {
         option3: "// this is a comment",
         option4: "<! this is a comment>",
         answere: "/* this is a comment */",
-        selected: ""
+        selected: "",
+        message: "",
+        correct: false
       },
       {
         question:
@@ -47,16 +55,45 @@ $(document).ready(function() {
         option3: "color:",
         option4: "font-color:",
         answere: "color:",
-        selected: ""
+        selected: "",
+        message: "",
+        correct: false
       }
     ]
   };
 
-  function hideButton() {
+  function hideSection1() {
+    $(".question").css("display", "none");
     $(".option1").css("display", "none");
     $(".option2").css("display", "none");
     $(".option3").css("display", "none");
     $(".option4").css("display", "none");
+  }
+
+  function showSection1() {
+    $(".question").css("display", "block");
+    $(".option1").css("display", "block");
+    $(".option2").css("display", "block");
+    $(".option3").css("display", "block");
+    $(".option4").css("display", "block");
+  }
+
+  function hideSection2() {
+    $(".question-sec2").css("display", "none");
+    $(".message").css("display", "none");
+    $(".option1-sec2").css("display", "none");
+    $(".option2-sec2").css("display", "none");
+    $(".option3-sec2").css("display", "none");
+    $(".option4-sec2").css("display", "none");
+  }
+
+  function showSection2() {
+    $(".question-sec2").css("display", "block");
+    $(".message").css("display", "block");
+    $(".option1-sec2").css("display", "block");
+    $(".option2-sec2").css("display", "block");
+    $(".option3-sec2").css("display", "block");
+    $(".option4-sec2").css("display", "block");
   }
 
   function setQuestions(index) {
@@ -74,7 +111,114 @@ $(document).ready(function() {
     $(".option4").text(object.questions[index].option4);
   }
 
-  function toCheck() {}
+  function setOutput(index) {
+    $(".question-sec2").text(object.questions[index].question);
 
-  hideButton();
+    if (object.questions[index].correct === true) {
+      $(".message").addClass("green");
+    } else {
+      $(".message").addClass("red");
+    }
+
+    $(".message").text(object.questions[index].message);
+
+    if (object.questions[index].selected === object.questions[index].answere) {
+      if (object.questions[index].answere === object.questions[index].option1) {
+        $(".option1-sec2").addClass("green");
+      } else if (
+        object.questions[index].answere === object.questions[index].option2
+      ) {
+        $(".option2-sec2").addClass("green");
+      } else if (
+        object.questions[index].answere === object.questions[index].option3
+      ) {
+        $(".option3-sec2").addClass("green");
+      } else if (
+        object.questions[index].answere === object.questions[index].option4
+      ) {
+        $(".option4-sec2").addClass("green");
+      }
+    } else {
+      if (object.questions[index].answere === object.questions[index].option1) {
+        $(".option1-sec2").addClass("green");
+      } else if (
+        object.questions[index].answere === object.questions[index].option2
+      ) {
+        $(".option2-sec2").addClass("green");
+      } else if (
+        object.questions[index].answere === object.questions[index].option3
+      ) {
+        $(".option3-sec2").addClass("green");
+      } else if (
+        object.questions[index].answere === object.questions[index].option4
+      ) {
+        $(".option4-sec2").addClass("green");
+      }
+
+      if (
+        object.questions[index].selected === object.questions[index].option1
+      ) {
+        $(".option1-sec2").addClass("red");
+      } else if (
+        object.questions[index].selected === object.questions[index].option2
+      ) {
+        $(".option2-sec2").addClass("red");
+      } else if (
+        object.questions[index].selected === object.questions[index].option3
+      ) {
+        $(".option3-sec2").addClass("red");
+      } else if (
+        object.questions[index].selected === object.questions[index].option4
+      ) {
+        $(".option4-sec2").addClass("red");
+      }
+    }
+
+    $(".option1-sec2").text(object.questions[index].option1);
+    $(".option2-sec2").text(object.questions[index].option2);
+    $(".option3-sec2").text(object.questions[index].option3);
+    $(".option4-sec2").text(object.questions[index].option4);
+  }
+
+  setOutput(0);
+
+  function toCheck(index) {
+    if (object.questions[index].selected === object.questions[index].answere) {
+      object.questions[index].message = "You got it CORRECT";
+      object.questions[index].correct = true;
+    } else {
+      object.questions[index].message = "It is WRONG answere";
+      object.questions[index].correct = false;
+    }
+  }
+
+  function mainFunction(index) {
+    setQuestions(index);
+    showSection1();
+
+    $(".option1").on("click", function() {
+      object.questions[index].selected = object.questions[index].option1;
+      toCheck(index);
+    });
+
+    $(".option2").on("click", function() {
+      object.questions[index].selected = object.questions[index].option1;
+      toCheck(index);
+    });
+
+    $(".option3").on("click", function() {
+      object.questions[index].selected = object.questions[index].option1;
+      toCheck(index);
+    });
+
+    $(".option4").on("click", function() {
+      object.questions[index].selected = object.questions[index].option1;
+      toCheck(index);
+    });
+
+    hideSection1();
+    showSection2();
+    setOutput(index);
+  }
+  hideSection1();
 });
