@@ -9,7 +9,7 @@ $(document).ready(function() {
         option4: "Hypertext Make Language",
         answere: "Hypertext Markup Language",
         selected: "",
-        message: "You got it correct!",
+        message: "",
         correct: false,
         reached: false
       },
@@ -70,7 +70,7 @@ $(document).ready(function() {
   var index = 0;
   var timerCount = 30;
 
-  function hideSection1() {
+  function hideQuestions() {
     $(".timer").css("display", "none");
     $(".question").css("display", "none");
     $(".option1").css("display", "none");
@@ -79,7 +79,7 @@ $(document).ready(function() {
     $(".option4").css("display", "none");
   }
 
-  function showSection1() {
+  function showQuestions() {
     $(".timer").css("display", "block");
     $(".question").css("display", "block");
     $(".option1").css("display", "block");
@@ -88,7 +88,7 @@ $(document).ready(function() {
     $(".option4").css("display", "block");
   }
 
-  function hideSection2() {
+  function hideOutput() {
     $(".question-sec2").css("display", "none");
     $(".message").css("display", "none");
     $(".option1-sec2").css("display", "none");
@@ -97,7 +97,7 @@ $(document).ready(function() {
     $(".option4-sec2").css("display", "none");
   }
 
-  function showSection2() {
+  function showOutput() {
     $(".question-sec2").css("display", "block");
     $(".message").css("display", "block");
     $(".option1-sec2").css("display", "block");
@@ -200,17 +200,16 @@ $(document).ready(function() {
     }
   }
 
-  function Section1(index, timer) {
-    console.log(index);
+  function setQuestionAndCheck(index, timer) {
     setQuestions(index);
-    showSection1();
+    showQuestions();
 
     $(".option1").on("click", function() {
       object.questions[index].selected = object.questions[index].option1;
       toCheck(index);
       object.questions[index].reached = true;
       clearInterval(timer);
-      hideSection1();
+      hideQuestions();
     });
 
     $(".option2").on("click", function() {
@@ -218,7 +217,7 @@ $(document).ready(function() {
       toCheck(index);
       object.questions[index].reached = true;
       clearInterval(timer);
-      hideSection1();
+      hideQuestions();
     });
 
     $(".option3").on("click", function() {
@@ -226,7 +225,7 @@ $(document).ready(function() {
       toCheck(index);
       object.questions[index].reached = true;
       clearInterval(timer);
-      hideSection1();
+      hideQuestions();
     });
 
     $(".option4").on("click", function() {
@@ -234,35 +233,52 @@ $(document).ready(function() {
       toCheck(index);
       object.questions[index].reached = true;
       clearInterval(timer);
-      hideSection1();
+      hideQuestions();
     });
-
-    index++;
   }
-  hideSection1();
+  hideQuestions();
 
-  function decrementQuestion(i) {
-    setInterval(function() {
-      mainSection1(i);
-    }, 3 * 1000);
-  }
+  // function decrementQuestion(i) {
+  //   setInterval(function() {
+  //     mainSection1(i);
+  //   }, 3 * 1000);
+  // }
 
-  function mainSection1() {
+  function setTimerForQuestion() {
+    showQuestions();
+    setQuestionAndCheck(index, timer);
     var timer = setInterval(function() {
       $(".timer").text("You have " + timerCount + " seconds");
-      timerCount -= 1;
-      showSection1();
-      Section1(index, timer);
+      timerCount--;
+      console.log(timerCount);
       if (timerCount === 0) {
         clearInterval(timer);
-        hideSection1();
+        hideQuestions();
+        setOutput(index);
       }
     }, 1000);
+  }
+
+  function setTimerForOutput() {
+    showOutput();
+
+    index++;
+    console.log(index);
+
+    if (index <= 4) {
+      hideOutput();
+      setTimeout(function() {
+        setTimerForQuestion();
+      }, 10 * 1000);
+    } else {
+      hideOutput();
+    }
   }
 
   $(".button").on("click", function() {
     $(".button").css("display", "none");
     $(".row2container").css("display", "none");
-    mainSection1();
+    setTimerForQuestion();
+    //setTimerForOutput();
   });
 });
