@@ -67,7 +67,11 @@ $(document).ready(function() {
     ]
   };
 
+  var index = 0;
+  var timerCount = 30;
+
   function hideSection1() {
+    $(".timer").css("display", "none");
     $(".question").css("display", "none");
     $(".option1").css("display", "none");
     $(".option2").css("display", "none");
@@ -76,6 +80,7 @@ $(document).ready(function() {
   }
 
   function showSection1() {
+    $(".timer").css("display", "block");
     $(".question").css("display", "block");
     $(".option1").css("display", "block");
     $(".option2").css("display", "block");
@@ -190,13 +195,13 @@ $(document).ready(function() {
       object.questions[index].message = "You got it CORRECT";
       object.questions[index].correct = true;
     } else {
-      object.questions[index].message = "It is WRONG answere";
+      object.questions[index].message = "It is WRONG";
       object.questions[index].correct = false;
     }
   }
 
-  function mainSection1() {
-    index = 0;
+  function Section1(index, timer) {
+    console.log(index);
     setQuestions(index);
     showSection1();
 
@@ -204,36 +209,60 @@ $(document).ready(function() {
       object.questions[index].selected = object.questions[index].option1;
       toCheck(index);
       object.questions[index].reached = true;
+      clearInterval(timer);
+      hideSection1();
     });
 
     $(".option2").on("click", function() {
       object.questions[index].selected = object.questions[index].option1;
       toCheck(index);
       object.questions[index].reached = true;
+      clearInterval(timer);
+      hideSection1();
     });
 
     $(".option3").on("click", function() {
       object.questions[index].selected = object.questions[index].option1;
       toCheck(index);
       object.questions[index].reached = true;
+      clearInterval(timer);
+      hideSection1();
     });
 
     $(".option4").on("click", function() {
       object.questions[index].selected = object.questions[index].option1;
       toCheck(index);
       object.questions[index].reached = true;
+      clearInterval(timer);
+      hideSection1();
     });
 
     index++;
   }
   hideSection1();
 
+  function decrementQuestion(i) {
+    setInterval(function() {
+      mainSection1(i);
+    }, 3 * 1000);
+  }
+
+  function mainSection1() {
+    var timer = setInterval(function() {
+      $(".timer").text("You have " + timerCount + " seconds");
+      timerCount -= 1;
+      showSection1();
+      Section1(index, timer);
+      if (timerCount === 0) {
+        clearInterval(timer);
+        hideSection1();
+      }
+    }, 1000);
+  }
+
   $(".button").on("click", function() {
     $(".button").css("display", "none");
     $(".row2container").css("display", "none");
-
-    for (var i = 0; i < object.questions.length; i++) {
-      setTimeout(mainSection1, 10 * 1000);
-    }
+    mainSection1();
   });
 });
