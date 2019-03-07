@@ -68,8 +68,7 @@ $(document).ready(function() {
   };
 
   var index = 0;
-  var timerCount = 30;
-
+  var timer;
   function hideQuestions() {
     $(".timer").css("display", "none");
     $(".question").css("display", "none");
@@ -200,42 +199,11 @@ $(document).ready(function() {
     }
   }
 
-  function setQuestionAndCheck(index, timer) {
-    setQuestions(index);
-    showQuestions();
+  // function setQuestionAndCheck(index, timer) {
+  //   setQuestions(index);
+  //   showQuestions();
+  // }
 
-    $(".option1").on("click", function() {
-      object.questions[index].selected = object.questions[index].option1;
-      toCheck(index);
-      object.questions[index].reached = true;
-      clearInterval(timer);
-      hideQuestions();
-    });
-
-    $(".option2").on("click", function() {
-      object.questions[index].selected = object.questions[index].option1;
-      toCheck(index);
-      object.questions[index].reached = true;
-      clearInterval(timer);
-      hideQuestions();
-    });
-
-    $(".option3").on("click", function() {
-      object.questions[index].selected = object.questions[index].option1;
-      toCheck(index);
-      object.questions[index].reached = true;
-      clearInterval(timer);
-      hideQuestions();
-    });
-
-    $(".option4").on("click", function() {
-      object.questions[index].selected = object.questions[index].option1;
-      toCheck(index);
-      object.questions[index].reached = true;
-      clearInterval(timer);
-      hideQuestions();
-    });
-  }
   hideQuestions();
 
   // function decrementQuestion(i) {
@@ -243,42 +211,125 @@ $(document).ready(function() {
   //     mainSection1(i);
   //   }, 3 * 1000);
   // }
-
   function setTimerForQuestion() {
+    console.log("index2" + index);
+    hideOutput();
+    setQuestions(index);
     showQuestions();
-    setQuestionAndCheck(index, timer);
-    var timer = setInterval(function() {
+
+    var timerCount = 30;
+    clearInterval(timer);
+    timer = setInterval(function() {
       $(".timer").text("You have " + timerCount + " seconds");
       timerCount--;
-      console.log(timerCount);
       if (timerCount === 0) {
         clearInterval(timer);
+
         hideQuestions();
         setOutput(index);
       }
     }, 1000);
+    console.log("timer-count: " + timerCount);
+
+    $(".option1").one("click", function() {
+      console.log("timer-count: " + timerCount);
+      clearInterval(timer);
+
+      object.questions[index].selected = object.questions[index].option1;
+
+      toCheck(index);
+
+      object.questions[index].reached = true;
+
+      hideQuestions();
+      setOutput(index);
+      showOutput();
+      index++;
+      console.log("index1 : " + index);
+
+      if (index < 5) {
+        setTimeout(setTimerForQuestion, 3 * 1000);
+      }
+
+      // console.log("reached: " + object.questions[index].reached);
+      // console.log("selected: " + object.questions[index].selected);
+      // console.log("correct: " + object.questions[index].correct);
+    });
+
+    $(".option2").one("click", function() {
+      clearInterval(timer);
+      object.questions[index].selected = object.questions[index].option2;
+      toCheck(index);
+      object.questions[index].reached = true;
+      hideQuestions();
+      setOutput(index);
+      showOutput();
+      index++;
+
+      console.log("index1 : " + index);
+
+      if (index < 5) {
+        setTimeout(setTimerForQuestion, 10 * 1000);
+      }
+    });
+
+    $(".option3").one("click", function() {
+      clearInterval(timer);
+      object.questions[index].selected = object.questions[index].option3;
+      toCheck(index);
+      object.questions[index].reached = true;
+      clearInterval(timer);
+      hideQuestions();
+      setOutput(index);
+      showOutput();
+      index++;
+
+      console.log("index1 : " + index);
+
+      if (index < 5) {
+        setTimeout(setTimerForQuestion, 10 * 1000);
+      }
+    });
+
+    $(".option4").one("click", function() {
+      clearInterval(timer);
+      object.questions[index].selected = object.questions[index].option4;
+      toCheck(index);
+      object.questions[index].reached = true;
+      clearInterval(timer);
+      hideQuestions();
+      setOutput(index);
+      showOutput();
+      index++;
+
+      console.log("index1 : " + index);
+
+      if (index < 5) {
+        setTimeout(setTimerForQuestion, 10 * 1000);
+      }
+    });
   }
 
-  function setTimerForOutput() {
-    showOutput();
+  // function setTimerForOutput() {
+  //   clearInterval(timer);
+  //   setOutput(index);
+  //   showOutput();
+  //   console.log(index);
+  //   index++;
 
-    index++;
-    console.log(index);
-
-    if (index <= 4) {
-      hideOutput();
-      setTimeout(function() {
-        setTimerForQuestion();
-      }, 10 * 1000);
-    } else {
-      hideOutput();
-    }
-  }
+  //   if (index <= 4) {
+  //     hideOutput();
+  //     setTimeout(function() {
+  //       setTimerForQuestion();
+  //     }, 10 * 1000);
+  //   } else {
+  //     hideOutput();
+  //   }
+  // }
 
   $(".button").on("click", function() {
     $(".button").css("display", "none");
     $(".row2container").css("display", "none");
     setTimerForQuestion();
-    //setTimerForOutput();
   });
 });
