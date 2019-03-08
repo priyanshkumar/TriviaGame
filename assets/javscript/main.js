@@ -373,32 +373,31 @@ $(document).ready(function() {
     //   // $(".option3").on("click", Output);
     //   // $(".option4").on("click", Output);
     // }, 30 * 1000);
-
-    $(".option1").on("click", function() {
-      object.questions[index].selected = object.questions[index].option1;
-      Output();
-
-      console.log("index1: " + index);
-    });
-    $(".option2").on("click", function() {
-      object.questions[index].selected = object.questions[index].option2;
-      Output();
-
-      console.log("index2: " + index);
-    });
-    $(".option3").on("click", function() {
-      object.questions[index].selected = object.questions[index].option3;
-      Output();
-
-      console.log("index3: " + index);
-    });
-    $(".option4").on("click", function() {
-      object.questions[index].selected = object.questions[index].option4;
-
-      Output();
-      console.log("index4: " + index);
-    });
   }
+  $(".option1").on("click", function() {
+    object.questions[index].selected = object.questions[index].option1;
+    Output();
+
+    console.log("index1: " + index);
+  });
+  $(".option2").on("click", function() {
+    object.questions[index].selected = object.questions[index].option2;
+    Output();
+
+    console.log("index2: " + index);
+  });
+  $(".option3").on("click", function() {
+    object.questions[index].selected = object.questions[index].option3;
+    Output();
+
+    console.log("index3: " + index);
+  });
+  $(".option4").on("click", function() {
+    object.questions[index].selected = object.questions[index].option4;
+
+    Output();
+    console.log("index4: " + index);
+  });
 
   function Output() {
     // clearInterval(time);
