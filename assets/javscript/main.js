@@ -65,6 +65,9 @@ $(document).ready(function() {
   var index = 0;
   var timerCount = 30;
   var time;
+  var displays = $("<ol>");
+  var correct;
+  var inCorrect;
 
   function hideQuestions() {
     $(".timer").css("display", "none");
@@ -122,13 +125,21 @@ $(document).ready(function() {
   function setOutput() {
     $(".question-sec2").text(object.questions[index].question);
 
-    if ($(".message").hasClass("green") || $(".message").hasClass("red")) {
+    if (
+      $(".message").hasClass("green") ||
+      $(".message").hasClass("red") ||
+      $(".message").hasClass("blue")
+    ) {
       $(".message").removeClass("green");
       $(".message").removeClass("red");
+      $(".message").removeClass("blue");
     }
 
     if (object.questions[index].correct === true) {
       $(".message").addClass("green");
+    } else if (object.questions[index].message === "You ran out of TIME!") {
+      $(".message").addClass("blue");
+      $(".message").removeClass("red");
     } else {
       $(".message").addClass("red");
     }
@@ -254,7 +265,10 @@ $(document).ready(function() {
 
         toCheck();
 
+        object.questions[index].message = "You ran out of TIME!";
+
         setOutput();
+
         showOutput();
 
         index++;
@@ -266,11 +280,40 @@ $(document).ready(function() {
             hideOutput();
 
             $(".button").css("display", "block");
-            $(".row2container").css("display", "block");
+
+            displayEndGame();
           }, 3000);
         }
       }
     }, 1000);
+  }
+
+  function displayEndGame() {
+    displays.empty();
+
+    displays.css("list-style-type", "none");
+    displays.css("display", "block");
+
+    correct = 0;
+    inCorrect = 0;
+
+    for (var i = 0; i < object.questions.length; i++) {
+      if (object.questions[i].correct === true) {
+        correct++;
+      } else {
+        inCorrect++;
+      }
+    }
+
+    var correctDisplay = $("<li>");
+    correctDisplay.text("You got " + correct + " correct");
+    displays.append(correctDisplay);
+
+    var inCorrectDisplay = $("<li>");
+    inCorrectDisplay.text("You got " + inCorrect + " wrong");
+    displays.append(inCorrectDisplay);
+
+    $(".conts").append(displays);
   }
 
   $(".option1").on("click", function() {
@@ -318,7 +361,7 @@ $(document).ready(function() {
         $(".button").attr("value", "Take QUIZ Again!");
 
         $(".button").css("display", "block");
-        $(".row2container").css("display", "block");
+        displayEndGame();
       }, 3000);
     }
   }
@@ -328,6 +371,8 @@ $(document).ready(function() {
 
     $(".button").css("display", "none");
     $(".row2container").css("display", "none");
+
+    displays.css("display", "none");
 
     Questions();
   });
