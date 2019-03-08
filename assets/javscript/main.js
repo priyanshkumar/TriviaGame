@@ -10,8 +10,7 @@ $(document).ready(function() {
         answere: "Hypertext Markup Language",
         selected: "",
         message: "",
-        correct: false,
-        reached: false
+        correct: false
       },
       {
         question:
@@ -23,8 +22,7 @@ $(document).ready(function() {
         answere: "span {font-weight:bold}",
         selected: "",
         message: "",
-        correct: false,
-        reached: false
+        correct: false
       },
       {
         question:
@@ -36,8 +34,7 @@ $(document).ready(function() {
         answere: "8px",
         selected: "",
         message: "",
-        correct: false,
-        reached: false
+        correct: false
       },
       {
         question: "How do you add a comment in a CSS file?",
@@ -48,8 +45,7 @@ $(document).ready(function() {
         answere: "/* this is a comment */",
         selected: "",
         message: "",
-        correct: false,
-        reached: false
+        correct: false
       },
       {
         question:
@@ -61,14 +57,15 @@ $(document).ready(function() {
         answere: "color:",
         selected: "",
         message: "",
-        correct: false,
-        reached: false
+        correct: false
       }
     ]
   };
 
   var index = 0;
-  var timerCount = 0;
+  var timerCount = 30;
+  var time;
+
   function hideQuestions() {
     $(".timer").css("display", "none");
     $(".question").css("display", "none");
@@ -92,6 +89,8 @@ $(document).ready(function() {
     $(".message").css("display", "none");
     $(".option1-sec2").css("display", "none");
     $(".option2-sec2").css("display", "none");
+    $(".option3-sec2").css("display", "none");
+    $(".option4-sec2").css("display", "none");
   }
 
   function showOutput() {
@@ -122,6 +121,7 @@ $(document).ready(function() {
 
   function setOutput() {
     $(".question-sec2").text(object.questions[index].question);
+
     if ($(".message").hasClass("green") || $(".message").hasClass("red")) {
       $(".message").removeClass("green");
       $(".message").removeClass("red");
@@ -134,6 +134,7 @@ $(document).ready(function() {
     }
 
     $(".message").text(object.questions[index].message);
+
     if (
       $(".option1-sec2").hasClass("green") ||
       $(".option1-sec2").hasClass("red")
@@ -141,6 +142,7 @@ $(document).ready(function() {
       $(".option1-sec2").removeClass("green");
       $(".option1-sec2").removeClass("red");
     }
+
     if (
       $(".option2-sec2").hasClass("green") ||
       $(".option2-sec2").hasClass("red")
@@ -148,6 +150,7 @@ $(document).ready(function() {
       $(".option2-sec2").removeClass("green");
       $(".option2-sec2").removeClass("red");
     }
+
     if (
       $(".option3-sec2").hasClass("green") ||
       $(".option3-sec2").hasClass("red")
@@ -155,6 +158,7 @@ $(document).ready(function() {
       $(".option3-sec2").removeClass("green");
       $(".option3-sec2").removeClass("red");
     }
+
     if (
       $(".option4-sec2").hasClass("green") ||
       $(".option4-sec2").hasClass("red")
@@ -231,48 +235,70 @@ $(document).ready(function() {
     }
   }
 
-  var time;
   function Questions() {
     hideOutput();
-    console.log("index:Que: " + index);
+
+    timerCount = 30;
 
     setQuestions();
     showQuestions();
-    console.log(timerCount);
-    // time = setInterval(function() {
-    //   timerCount++;
-    //   console.log(timerCount);
 
-    // }, 30 * 1000);
+    time = setInterval(function() {
+      $(".timer").text("you are left with " + timerCount + " seconds");
+      timerCount--;
+
+      if (timerCount === 0) {
+        clearInterval(time);
+
+        hideQuestions();
+
+        toCheck();
+
+        setOutput();
+        showOutput();
+
+        index++;
+
+        if (index < 5) {
+          setTimeout(Questions, 3000);
+        } else {
+          setTimeout(function() {
+            hideOutput();
+
+            $(".button").css("display", "block");
+            $(".row2container").css("display", "block");
+          }, 3000);
+        }
+      }
+    }, 1000);
   }
+
   $(".option1").on("click", function() {
     object.questions[index].selected = object.questions[index].option1;
-    Output();
 
-    console.log("index1: " + index);
+    Output();
   });
+
   $(".option2").on("click", function() {
     object.questions[index].selected = object.questions[index].option2;
-    Output();
 
-    console.log("index2: " + index);
+    Output();
   });
+
   $(".option3").on("click", function() {
     object.questions[index].selected = object.questions[index].option3;
-    Output();
 
-    console.log("index3: " + index);
+    Output();
   });
+
   $(".option4").on("click", function() {
     object.questions[index].selected = object.questions[index].option4;
 
     Output();
-    console.log("index4: " + index);
   });
 
   function Output() {
-    // clearInterval(time);
-    console.log("index:Output " + index);
+    clearInterval(time);
 
     hideQuestions();
 
@@ -280,23 +306,31 @@ $(document).ready(function() {
 
     setOutput();
     showOutput();
+
     index++;
-    console.log("index:increamented: " + index);
 
     if (index < 5) {
       setTimeout(Questions, 3000);
     } else {
-      hideOutput();
-      $(".button").css("display", "block");
-      $(".row2container").css("display", "block");
+      setTimeout(function() {
+        hideOutput();
+
+        $(".button").attr("value", "Take QUIZ Again!");
+
+        $(".button").css("display", "block");
+        $(".row2container").css("display", "block");
+      }, 3000);
     }
   }
 
   $(".button").on("click", function() {
+    index = 0;
+
     $(".button").css("display", "none");
     $(".row2container").css("display", "none");
-    // setTi  merForQuestion();
+
     Questions();
   });
+
   hideQuestions();
 });
