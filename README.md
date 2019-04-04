@@ -25,3 +25,5 @@
 ## Build With:
 
 JavaScript, jQuery, HTML 5, CSS 3, Bootstrap
+
+[checkout](https://priyanshkumar.github.io/TriviaGame/)
